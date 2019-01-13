@@ -1,0 +1,22 @@
+## place this file into file: /etc/systemd/system/fanctl.service
+##
+## systemctl daemon-reload
+## systemctl start fanctl.service
+
+[Unit]
+Description=Fan Control Service
+Requires=multi-user.target
+After=multi-user.target
+
+[Service]
+## This was the original setting, which only worked for the OP on CLI:
+#Type=simple
+Type=idle
+User=root
+ExecStart=sh /home/tad/fanctl/setfan50.bash
+## next could also be turned off as savestate
+ExecStop=/bin/kill -9 $MAINPID
+
+
+[Install]
+WantedBy=multi-user.target
